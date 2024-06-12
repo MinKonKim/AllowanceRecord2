@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { postUserData } from "../axios/user";
+import { register } from "../lib/api/auth";
 import { ButtonGroup, InputGroup, Outer, StyledButton } from "../style/styled";
-
 function SignUp() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
 
-  const LoginHandler = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    postUserData({ id, password, nickname });
+    //유효성 검사 넣어주기
+    const response = await register({ id, password, nickname });
+    console.log("회원가입 응답", response);
+
+    confirm("회원가입이 완료되었습니다.");
+    navigate("/signin");
     setId("");
     setPassword("");
     setNickname("");
@@ -47,11 +51,11 @@ function SignUp() {
           />{" "}
         </InputGroup>
         <ButtonGroup>
-          <StyledButton bgcolor={"#66666"} onClick={LoginHandler}>
+          <StyledButton bgcolor={"#66666"} onClick={handleRegister}>
             회원가입
           </StyledButton>
-          <StyledButton bgcolor={"#a1c01b"} onClick={() => navigate("/login")}>
-            로그인
+          <StyledButton bgcolor={"#a1c01b"} onClick={() => navigate("/signin")}>
+            로그인화면으로
           </StyledButton>
         </ButtonGroup>
       </SignUpWrapper>

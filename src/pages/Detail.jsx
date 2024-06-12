@@ -1,8 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchExpenseById, updateExpense } from "../axios/expense";
+import {
+  deleteExpense,
+  fetchExpenseById,
+  putExpense,
+} from "../lib/api/db/expense";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -28,13 +32,19 @@ export default function Detail() {
     getExpenseData();
   }, []);
 
-  const mutation = useMutation({
-    mutationFn: (variables) => {
-      if (variables.type === "update") {
-        return updateExpense(variables.id, variables.data);
-      } else if (variables.type === "delete") {
-        return deleteExpense(variables.id);
-      }
+  // react-query :  put expense
+  const mutatationEdit = useMutation({
+    mutationFn: putExpense,
+    onSuccess: () => {
+      QueryClient.invalidateQueries(["expenses"]);
+    },
+  });
+
+  // react-query : expenses
+  const mutatationDelete = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      QueryClient.invalidateQueries(["expenses"]);
     },
   });
 
@@ -49,21 +59,20 @@ export default function Detail() {
       return;
     }
     const newExpense = {
-      id,
-      date,
-      item,
-      amount,
-      description,
+      id: id,
+      date: date,
+      month: parseInt(date.slice(5, 7)),
+      item: item,
+      amount: parseInt(amount, 10),
+      description: description,
     };
-    mutation.mutate({ type: "update", id: { id }, data: { ...newExpense } });
-
+    console.log(newExpense);
+    mutatationEdit.mutate(newExpense);
     navigate("/");
   };
 
-  const deleteExpense = () => {
-    // const newExpenses = expenses.filter((expense) => expense.id !== id);
-    // setExpenses(newExpenses);
-    mutation.mutate({ type: "delete", id: id });
+  const handleDelete = () => {
+    mutatationDelete.mutate(id);
     navigate("/");
   };
 
@@ -111,7 +120,7 @@ export default function Detail() {
       </InputGroup>
       <ButtonGroup>
         <Button onClick={editExpense}>수정</Button>
-        <Button danger="true" onClick={deleteExpense}>
+        <Button danger="true" onClick={handleDelete}>
           삭제
         </Button>
         <BackButton onClick={() => navigate(-1)}>뒤로 가기</BackButton>

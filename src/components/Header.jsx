@@ -1,13 +1,27 @@
-import { Link, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+import Profile from "../pages/Profile";
+import useUserStore from "../zustand/useUserStore";
+import { useModal } from "./Modal/Modal.context";
 
 function Header() {
+  const modal = useModal();
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const handleClickModalOpen = () => {
+    modal.open(<Profile />);
+  };
   const handleLogout = () => {
     const confirmLogout = window.confirm("정말로 로그아웃 하시겠습니까?");
     if (confirmLogout) {
-      Navigate("/");
+      logout();
+      console.log("로그아웃");
     }
   };
+  const { user } = useUserStore();
+  console.log("헤더의 유저 ", user);
   return (
     <HeaderWrapper>
       <ul>
@@ -15,10 +29,17 @@ function Header() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/">내 프로필</Link>
+          <StyledDiv onClick={handleClickModalOpen}>내 프로필</StyledDiv>
         </li>
       </ul>
-      <button onClick={handleLogout}>로그아웃</button>
+      <div>
+        <span>{user.nickname}</span>
+      </div>
+      {isAuthenticated ? (
+        <button onClick={handleLogout}>로그아웃</button>
+      ) : (
+        <button onClick={() => navigate("/signin")}>로그인</button>
+      )}
     </HeaderWrapper>
   );
 }
@@ -71,4 +92,8 @@ const HeaderWrapper = styled.div`
       background-color: #45a049;
     }
   }
+`;
+
+const StyledDiv = styled.div`
+  cursor: pointer;
 `;

@@ -17,6 +17,10 @@ export const InputGroup = styled.div`
     border-radius: 4px;
     font-size: 25px;
     width: 95%;
+
+    &:focus {
+      border-color: blue;
+    }
   }
 `;
 

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { addExpense } from "../axios/expense";
+import { addExpense } from "../lib/api/db/expense";
 import { Section } from "../pages/Home";
 
 export default function CreateExpense({ month }) {
@@ -16,7 +16,6 @@ export default function CreateExpense({ month }) {
   const mutation = useMutation({
     mutationFn: addExpense,
   });
-
   const handleAddExpense = () => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(newDate)) {

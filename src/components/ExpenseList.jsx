@@ -1,27 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { fetchExpenses } from "../axios/expense";
 import { Section } from "../pages/Home";
 
-export default function ExpenseList() {
+export default function ExpenseList({ expenses }) {
   const navigate = useNavigate();
-  const {
-    data: expenses,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ["expenses"],
-    queryFn: fetchExpenses,
-  });
-
-  if (isPending) {
-    return <div>로딩중입니다...</div>;
-  }
-  if (isError) {
-    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
-  }
-
   return (
     <Section>
       <ExpenseItemList>

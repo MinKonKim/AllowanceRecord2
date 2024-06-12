@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { Section } from "../pages/Home";
+import useMonthStore from "../zustand/useMonthStore";
 
 const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-export default function MonthNavigation({ month, setMonth }) {
+export default function MonthNavigation() {
+  const { selectedMonth } = useMonthStore();
+  const setSelectedMonth = useMonthStore((state) => state.setSelectedMonth);
   return (
     <Section>
       <MonthWrapper>
@@ -11,9 +14,9 @@ export default function MonthNavigation({ month, setMonth }) {
           return (
             <MonthButton
               key={element}
-              selected={element === month}
+              selected={element === selectedMonth}
               onClick={() => {
-                setMonth(element);
+                setSelectedMonth(element);
               }}
             >{`${element}월`}</MonthButton>
           );

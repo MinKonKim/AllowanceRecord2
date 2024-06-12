@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import CreateExpense from "../components/CreateExpense";
 import ExpenseList from "../components/ExpenseList";
 import MonthNavigation from "../components/MonthNavigation";
+import { fetchExpenses } from "../lib/api/db/expense";
+import useMonthStore from "../zustand/useMonthStore";
 
 export const Section = styled.section`
   background-color: #ffffff;
@@ -10,21 +12,33 @@ export const Section = styled.section`
   padding: 20px;
 `;
 
-export default function Home({ expenses, setExpenses }) {
-  const [month, setMonth] = useState(1);
+export default function Home() {
+  const { selectedMonth } = useMonthStore();
+  const {
+    data: expenses,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["expenses"],
+    queryFn: fetchExpenses,
+  });
 
+  if (isPending) {
+    return <div>로딩중입니다...</div>;
+  }
+  if (isError) {
+    return <div>데이터 조회 중 오류가 발생했습니다.</div>;
+  }
+
+  // 필터링
   const filteredExpenses = expenses.filter(
-    (expense) => expense.month === month
+    (expense) => expense.month === selectedMonth
   );
 
   return (
     <Container>
-      <MonthNavigation month={month} setMonth={setMonth} />
-      <CreateExpense
-        month={month}
-        expenses={expenses}
-        setExpenses={setExpenses}
-      />
+      <MonthNavigation />
+      <CreateExpense month={selectedMonth} />
       <ExpenseList expenses={filteredExpenses} />
     </Container>
   );
