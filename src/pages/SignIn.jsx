@@ -11,19 +11,19 @@ function SignIn() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setUser } = useUserStore();
   const { login } = useContext(AuthContext);
-  // Zustand  - User 정보 저장
-  const setUser = useUserStore((state) => state.setUser);
 
   const handleSignIn = async () => {
     const data = await signIn({
       id: id,
       password: password,
     });
-    login(data.accesssToken);
+    console.log("로그인한 유저 정보 :", data);
+    setUser({ userId: data.id, nickname: data.nickname, avatar: data.avatar });
+    login(data.accessToken);
     //저장
-    console.log(data.userId, data.nickname);
-    setUser({ id: data.userId, nickname: data.nickname, avatar: data.avater });
+    navigate("/");
   };
 
   return (

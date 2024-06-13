@@ -44,6 +44,7 @@ export default function CreateExpense({ refetch }) {
       item: newItem,
       amount: parsedAmount,
       description: newDescription,
+      userId: user.id,
     };
 
     mutation.mutate(newExpense);

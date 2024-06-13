@@ -1,12 +1,9 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import {
-  deleteExpense,
-  fetchExpenseById,
-  putExpense,
-} from "../lib/api/db/expense";
+import SkeletonUI from "../components/SkeletonUI";
+import { deleteExpense, getExpense, putExpense } from "../lib/api/db/expense";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -17,21 +14,20 @@ export default function Detail() {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
-  const getExpenseData = async () => {
-    // axios 로 받아옴
-    const expense = await fetchExpenseById(id);
-
-    setDate(expense.date);
-    setItem(expense.item);
-    setAmount(expense.amount);
-    setDescription(expense.description);
-    return expense;
-  };
+  const {
+    data: expense,
+    isLoading,
+    isError,
+  } = useQuery({ queryKey: ["expenses", id], queryFn: getExpense });
 
   useEffect(() => {
-    getExpenseData();
+    if (expense) {
+      setDate(expense.date);
+      setItem(expense.item);
+      setAmount(expense.amount);
+      setDescription(expense.description);
+    }
   }, []);
-
   // react-query :  put expense
   const mutatationEdit = useMutation({
     mutationFn: putExpense,
@@ -48,7 +44,8 @@ export default function Detail() {
     },
   });
 
-  const editExpense = () => {
+  // 수정하기
+  const handlePut = () => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(date)) {
       alert("날짜를 YYYY-MM-DD 형식으로 입력해주세요.");
@@ -66,16 +63,22 @@ export default function Detail() {
       amount: parseInt(amount, 10),
       description: description,
     };
-    console.log(newExpense);
     mutatationEdit.mutate(newExpense);
     navigate("/");
   };
 
+  // 삭제하기
   const handleDelete = () => {
     mutatationDelete.mutate(id);
     navigate("/");
   };
 
+  if (isLoading) {
+    return <SkeletonUI />;
+  }
+  if (isError) {
+    return <div>에러로 인해 출력이 안됩니다.</div>;
+  }
   return (
     <Container>
       <InputGroup>
@@ -119,7 +122,7 @@ export default function Detail() {
         />
       </InputGroup>
       <ButtonGroup>
-        <Button onClick={editExpense}>수정</Button>
+        <Button onClick={handlePut}>수정</Button>
         <Button danger="true" onClick={handleDelete}>
           삭제
         </Button>

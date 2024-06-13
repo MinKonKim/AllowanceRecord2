@@ -3,7 +3,7 @@ import { db } from "./db";
 const PATH = "/expenses";
 
 // Expense 리스트 불러오기
-export const fetchExpenses = async () => {
+export const getExpenses = async () => {
   try {
     const { data } = await db.get(PATH);
     return data;
@@ -12,10 +12,11 @@ export const fetchExpenses = async () => {
   }
 };
 
-// Expense id 별로 불러오기
-export const fetchExpenseById = async (id) => {
+// Expense 불러오기
+export const getExpense = async ({ queryKey }) => {
   try {
-    const { data } = await db.get(`${PATH}/${id}`);
+    const { data } = await db.get(`${PATH}/${queryKey[1]}/`);
+    console.log("지출 내역 DATA : ", data);
     return data;
   } catch (error) {
     console.error("상세 항목을 불러오는 중 에러 발생", error);

@@ -38,12 +38,12 @@ export const getUserInfo = async () => {
   if (!accessToken) return;
 
   try {
-    const response = await axios.get(AUTH_API_HOST + "/user", {
+    const { data } = await axios.get(AUTH_API_HOST + "/user", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return response.data;
+    return data;
   } catch (error) {
     console.error(error?.response?.data?.message);
     alert(error?.response?.data?.message);

@@ -13,7 +13,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
+    // localStorage.removeItem("user-storage");
+    // localStorage.removeItem("accessToken");
+    localStorage.clear();
     setIsAuthenticated(false);
   };
 

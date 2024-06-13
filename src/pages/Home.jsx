@@ -4,16 +4,13 @@ import CreateExpense from "../components/CreateExpense";
 import ExpenseList from "../components/ExpenseList";
 import MonthNavigation from "../components/MonthNavigation";
 import SkeletonUI from "../components/SkeletonUI";
-import { fetchExpenses } from "../lib/api/db/expense";
+import { getExpenses } from "../lib/api/db/expense";
 import useMonthStore from "../zustand/useMonthStore";
-
-export const Section = styled.section`
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-`;
+import useUserStore from "../zustand/useUserStore";
 
 export default function Home() {
+  const { user } = useUserStore();
+
   const { selectedMonth } = useMonthStore();
   const {
     data: expenses,
@@ -22,13 +19,13 @@ export default function Home() {
     refetch, //
   } = useQuery({
     queryKey: ["expenses"],
-    queryFn: fetchExpenses,
+    queryFn: getExpenses,
   });
 
   if (isPending) {
     return (
       <div>
-        <SkeletonUI width={"300px"} height={"400px"} />
+        <SkeletonUI />
       </div>
     );
   }
@@ -37,8 +34,11 @@ export default function Home() {
   }
 
   // 필터링
-  const filteredExpenses = expenses.filter(
+  const filteredByMonth = expenses.filter(
     (expense) => expense.month === selectedMonth
+  );
+  const filteredExpenses = filteredByMonth.filter(
+    (expense) => expense.userId === user.id
   );
 
   return (
@@ -49,6 +49,7 @@ export default function Home() {
     </Container>
   );
 }
+
 const Container = styled.main`
   max-width: 800px;
   width: 100%;
@@ -56,4 +57,9 @@ const Container = styled.main`
   flex-direction: column;
   gap: 20px;
   margin: 0 auto;
+`;
+export const Section = styled.section`
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
 `;

@@ -1,16 +1,20 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+
 const useUserStore = create(
-  immer((set) => ({
-    user: null,
-    setUser: (newUser) => set({ user: newUser }),
-    updateUser: (updateFields) =>
-      set((state) => ({ user: { ...state.user, ...updateFields } })),
-  })),
-  {
-    // 로컬 스토리지에 저장
-    name: "expenses-store",
-  }
+  persist(
+    immer((set) => ({
+      user: null,
+      setUser: (newUser) => set({ user: newUser }),
+      updateUser: (updateFields) =>
+        set((state) => ({ user: { ...state.user, ...updateFields } })),
+    })),
+    {
+      name: "user-storage",
+      getStorage: () => localStorage,
+    }
+  )
 );
 
 export default useUserStore;

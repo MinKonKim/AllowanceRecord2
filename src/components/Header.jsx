@@ -3,24 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 import Profile from "../pages/Profile";
-import useUserStore from "../zustand/useUserStore";
 import { useModal } from "./Modal/Modal.context";
 
-function Header() {
+function Header({ user }) {
   const modal = useModal();
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+
+  const { logout } = useContext(AuthContext);
+
   const handleClickModalOpen = () => {
     modal.open(<Profile />);
   };
+
   const handleLogout = () => {
-    const confirmLogout = window.confirm("정말로 로그아웃 하시겠습니까?");
-    if (confirmLogout) {
+    if (window.confirm("정말로 로그아웃 하시겠습니까?")) {
       logout();
-      console.log("로그아웃");
+      navigate("/signin");
     }
   };
-  const { user } = useUserStore();
   return (
     <HeaderWrapper>
       <ul>
@@ -40,7 +40,7 @@ function Header() {
         </StyledProfile>
       )}
 
-      {isAuthenticated ? (
+      {user ? (
         <button onClick={handleLogout}>로그아웃</button>
       ) : (
         <button onClick={() => navigate("/signin")}>로그인</button>
