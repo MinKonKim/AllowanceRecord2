@@ -11,12 +11,29 @@ function Profile() {
   const { user } = useUserStore();
 
   const [nickname, setNickname] = useState(user.nickname);
+  const [avatar, setAvatar] = useState(null);
 
   const updateUser = useUserStore((state) => state.updateUser);
-  const handleClickUpdateUser = () => {
-    const updateFields = { nickname: nickname };
-    updateUser(updateFields);
+
+  const handleFileChange = (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    if (file) {
+      setAvatar(URL.createObjectURL(file));
+      console.log(avatar);
+    } else {
+      setAvatar(null);
+    }
   };
+
+  const handleClickUpdateUser = () => {
+    if (window.confirm("입력된 정보로 변경 하시겠습니까?")) {
+      const updateFields = { nickname: nickname, avatar: avatar };
+      updateUser(updateFields);
+      modal.close();
+    }
+  };
+
   return (
     <BackDrop>
       <ProfileWarpper>
@@ -28,7 +45,7 @@ function Profile() {
           onChange={(e) => setNickname(e.target.value)}
         />
         <ProfileLable>아바타 이미지</ProfileLable>
-        <FileInput type="file" />
+        <FileInput type="file" value={avatar} onChange={handleFileChange} />
         <StyledButton bgcolor={"#5993ff"} onClick={handleClickUpdateUser}>
           프로필 업데이트
         </StyledButton>

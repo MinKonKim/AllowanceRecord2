@@ -21,20 +21,25 @@ function Header() {
     }
   };
   const { user } = useUserStore();
-  console.log("헤더의 유저 ", user);
   return (
     <HeaderWrapper>
       <ul>
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li>
-          <StyledDiv onClick={handleClickModalOpen}>내 프로필</StyledDiv>
-        </li>
+        {user && (
+          <li>
+            <StyledDiv onClick={handleClickModalOpen}>내 프로필</StyledDiv>
+          </li>
+        )}
       </ul>
-      <div>
-        <span>{user.nickname}</span>
-      </div>
+      {user && (
+        <StyledProfile>
+          <img src={user.avatar} />
+          <span>{user.nickname}</span>
+        </StyledProfile>
+      )}
+
       {isAuthenticated ? (
         <button onClick={handleLogout}>로그아웃</button>
       ) : (
@@ -45,6 +50,17 @@ function Header() {
 }
 
 export default Header;
+
+const StyledProfile = styled.div`
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex: 1;
+  align-items: end;
+  justify-content: end;
+`;
 
 const HeaderWrapper = styled.div`
   display: flex;

@@ -12,6 +12,17 @@ function SignUp() {
   const handleRegister = async (e) => {
     e.preventDefault();
     //유효성 검사 넣어주기
+    if (id.length === 0 || id.length < 4) {
+      alert("아이디는 4글자 이상이여야 합니다.");
+      return;
+    } else if (password.length === 0 || password.length < 4) {
+      alert("비밀번호는 4글자 이상이여야 합니다.");
+      return;
+    } else if (nickname.length === 0 || nickname.length < 4) {
+      alert("닉네임은 4글자 이상이여야 합니다.");
+      return;
+    }
+
     const response = await register({ id, password, nickname });
     console.log("회원가입 응답", response);
 

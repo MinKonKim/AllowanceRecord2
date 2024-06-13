@@ -1,9 +1,6 @@
-import axios from "axios";
+import { db } from "./db";
 
 const PATH = "/expenses";
-const db = axios.create({
-  baseURL: "http://localhost:5000",
-});
 
 // Expense 리스트 불러오기
 export const fetchExpenses = async () => {

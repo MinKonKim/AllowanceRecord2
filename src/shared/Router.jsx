@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Layout from "../components/Layout";
+import Header from "../components/Header";
 import { AuthContext } from "../context/AuthContext";
 import Detail from "../pages/Detail";
 import Home from "../pages/Home";
@@ -21,16 +21,15 @@ const PublicRoute = ({ element: Element, ...rest }) => {
   return !isAuthenticated ? <Element {...rest} /> : <Navigate to="/" />;
 };
 
-const SharedRouter = (user) => (
+const SharedRouter = () => (
   <BrowserRouter>
-    <Layout user={user}>
-      <Routes>
-        <Route path="/" element={<Home user={user} />} />
-        <Route path="/detail/:id" element={<PrivateRoute element={Detail} />} />
-        <Route path="/signin" element={<PublicRoute element={SignIn} />} />
-        <Route path="/signup" element={<PublicRoute element={SignUp} />} />
-      </Routes>
-    </Layout>
+    <Header />
+    <Routes>
+      <Route path="/" element={<PrivateRoute element={Home} />} />
+      <Route path="/detail/:id" element={<PrivateRoute element={Detail} />} />
+      <Route path="/signin" element={<PublicRoute element={SignIn} />} />
+      <Route path="/signup" element={<PublicRoute element={SignUp} />} />
+    </Routes>
   </BrowserRouter>
 );
 

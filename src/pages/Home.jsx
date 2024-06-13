@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CreateExpense from "../components/CreateExpense";
 import ExpenseList from "../components/ExpenseList";
 import MonthNavigation from "../components/MonthNavigation";
+import SkeletonUI from "../components/SkeletonUI";
 import { fetchExpenses } from "../lib/api/db/expense";
 import useMonthStore from "../zustand/useMonthStore";
 
@@ -18,13 +19,18 @@ export default function Home() {
     data: expenses,
     isPending,
     isError,
+    refetch, //
   } = useQuery({
     queryKey: ["expenses"],
     queryFn: fetchExpenses,
   });
 
   if (isPending) {
-    return <div>로딩중입니다...</div>;
+    return (
+      <div>
+        <SkeletonUI width={"300px"} height={"400px"} />
+      </div>
+    );
   }
   if (isError) {
     return <div>데이터 조회 중 오류가 발생했습니다.</div>;
@@ -38,8 +44,8 @@ export default function Home() {
   return (
     <Container>
       <MonthNavigation />
-      <CreateExpense month={selectedMonth} />
-      <ExpenseList expenses={filteredExpenses} />
+      <CreateExpense refetch={refetch} month={selectedMonth} />
+      <ExpenseList refetch={refetch} expenses={filteredExpenses} />
     </Container>
   );
 }

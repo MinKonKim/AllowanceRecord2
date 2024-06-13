@@ -1,63 +1,12 @@
 {
   "expenses": [
     {
-      "date": "2024-01-03",
+      "id": "2cd99680-d9d6-4dbe-b678-4541fc783713",
       "month": 1,
-      "item": "개인사업",
-      "amount": 60000,
-      "description": "테슬라 모델 3",
-      "id": "46869445-5f9c-4650-941f-41bd9457bc07"
-    },
-    {
-      "date": "2024-01-07",
-      "item": "개인사업",
-      "amount": 500000,
-      "description": "X(구 트위터)",
-      "month": 1,
-      "id": "a5c0d8de-d010-4d07-9934-29765051a7ea"
-    },
-    {
-      "id": "0d0a966e-5c35-4bf0-aca4-f2b1265a432d",
-      "month": 1,
-      "date": "2024-01-13",
-      "item": "식비",
-      "amount": 2000,
-      "description": "메가커피",
-      "createdBy": "Rosie"
-    },
-    {
-      "id": "b82b213e-8164-4c89-94b0-7246cdcfc4f9",
-      "month": 1,
-      "date": "2024-01-21",
-      "item": "식비",
-      "amount": 412000,
-      "description": "BBQ",
-      "createdBy": "Me"
-    },
-    {
-      "id": "d180194f-7c27-428a-8cd9-ad9114e58821",
-      "month": 1,
-      "date": "2024-01-22",
-      "item": "도서",
-      "amount": 23000,
-      "description": "리액트 마스터",
-      "createdBy": "Me"
-    },
-    {
-      "month": 2,
-      "date": "2024-02-01",
-      "item": "도서",
-      "amount": 60000,
-      "description": "타입스크립트",
-      "id": "3be5af6b-36ad-4d8c-abe9-d080b6c424a1"
-    },
-    {
-      "id": "228b5502-9f64-4ff0-928d-776267b7b2a2",
-      "month": 6,
-      "date": "2024-06-12",
-      "item": "도서",
-      "amount": 13800,
-      "description": "자바스크립트책"
+      "date": "2024-01-01",
+      "item": "213123",
+      "amount": 312312,
+      "description": "3123123"
     }
   ]
 }

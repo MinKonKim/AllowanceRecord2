@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 const useUserStore = create(
   immer((set) => ({
-    user: {},
+    user: null,
     setUser: (newUser) => set({ user: newUser }),
     updateUser: (updateFields) =>
       set((state) => ({ user: { ...state.user, ...updateFields } })),
