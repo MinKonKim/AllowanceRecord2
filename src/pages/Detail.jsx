@@ -27,12 +27,13 @@ export default function Detail() {
       setAmount(expense.amount);
       setDescription(expense.description);
     }
-  }, []);
+  }, [expense]);
   // react-query :  put expense
   const mutatationEdit = useMutation({
     mutationFn: putExpense,
     onSuccess: () => {
       QueryClient.invalidateQueries(["expenses"]);
+      getExpense();
     },
   });
 
@@ -41,6 +42,7 @@ export default function Detail() {
     mutationFn: deleteExpense,
     onSuccess: () => {
       QueryClient.invalidateQueries(["expenses"]);
+      getExpense();
     },
   });
 

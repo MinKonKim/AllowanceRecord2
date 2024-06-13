@@ -12,6 +12,7 @@ export default function Home() {
   const { user } = useUserStore();
 
   const { selectedMonth } = useMonthStore();
+
   const {
     data: expenses,
     isPending,
@@ -33,10 +34,11 @@ export default function Home() {
     return <div>데이터 조회 중 오류가 발생했습니다.</div>;
   }
 
-  // 필터링
+  // 월별 필터링
   const filteredByMonth = expenses.filter(
     (expense) => expense.month === selectedMonth
   );
+  // 유저아이디별 필터링
   const filteredExpenses = filteredByMonth.filter(
     (expense) => expense.userId === user.id
   );

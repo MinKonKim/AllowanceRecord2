@@ -49,3 +49,22 @@ export const getUserInfo = async () => {
     alert(error?.response?.data?.message);
   }
 };
+
+export const updateProfile = async (formData) => {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) return;
+
+  try {
+    const { data } = await axios.patch(AUTH_API_HOST + "/profile", formData, {
+      headers: {
+        "Content-Type ": "multipart/form-data",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error?.response?.data?.message);
+    alert(error?.response?.data?.message);
+  }
+};

@@ -2,34 +2,34 @@ import { useState } from "react";
 import styled from "styled-components";
 import BackDrop from "../components/Modal/BackDrop";
 import { useModal } from "../components/Modal/Modal.context";
+import { updateProfile } from "../lib/api/auth";
 import { StyledButton } from "../style/styled";
 import useUserStore from "../zustand/useUserStore";
 
 function Profile() {
   const modal = useModal();
 
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
   const [nickname, setNickname] = useState(user.nickname);
   const [avatar, setAvatar] = useState(null);
 
-  const updateUser = useUserStore((state) => state.updateUser);
+  // const updateUser = useUserStore((state) => state.updateUser);
 
-  const handleFileChange = (event) => {
-    event.preventDefault();
-    const file = event.target.files[0];
-    if (file) {
-      setAvatar(URL.createObjectURL(file));
-      console.log(avatar);
-    } else {
-      setAvatar(null);
-    }
-  };
-
-  const handleClickUpdateUser = () => {
+  const handleUpdateProfile = async () => {
     if (window.confirm("입력된 정보로 변경 하시겠습니까?")) {
-      const updateFields = { nickname: nickname, avatar: avatar };
-      updateUser(updateFields);
+      const formData = new FormData();
+      formData.append("nickname", nickname);
+      formData.append("avatar", avatar);
+      const response = await updateProfile(formData);
+
+      if (response.success) {
+        setUser({
+          ...user,
+          nickname: response.nickname,
+          avatar: response.avatar,
+        });
+      }
       modal.close();
     }
   };
@@ -45,8 +45,12 @@ function Profile() {
           onChange={(e) => setNickname(e.target.value)}
         />
         <ProfileLable>아바타 이미지</ProfileLable>
-        <FileInput type="file" value={avatar} onChange={handleFileChange} />
-        <StyledButton bgcolor={"#5993ff"} onClick={handleClickUpdateUser}>
+        <FileInput
+          type="file"
+          accept="image/*"
+          onChange={(e) => setAvatar(e.target.files[0])}
+        />
+        <StyledButton bgcolor={"#5993ff"} onClick={handleUpdateProfile}>
           프로필 업데이트
         </StyledButton>
         <StyledButton bgcolor={"#909090"} onClick={modal.close}>
@@ -66,10 +70,12 @@ const ProfileLable = styled.span`
 `;
 const NicknameInput = styled.input`
   font-size: 25px;
+  width: 96%;
+  border-radius: 5px;
 `;
 const FileInput = styled.input`
-  border: 1px solid;
   padding: 10px;
+  width: 96%;
 `;
 const ProfileWarpper = styled.div`
   background-color: white;

@@ -16,7 +16,6 @@ export const getExpenses = async () => {
 export const getExpense = async ({ queryKey }) => {
   try {
     const { data } = await db.get(`${PATH}/${queryKey[1]}/`);
-    console.log("지출 내역 DATA : ", data);
     return data;
   } catch (error) {
     console.error("상세 항목을 불러오는 중 에러 발생", error);

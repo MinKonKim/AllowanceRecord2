@@ -27,16 +27,12 @@ function Header({ user }) {
         <li>
           <Link to="/">Home</Link>
         </li>
-        {user && (
-          <li>
-            <StyledDiv onClick={handleClickModalOpen}>내 프로필</StyledDiv>
-          </li>
-        )}
+        {user && <li onClick={handleClickModalOpen}>내 프로필</li>}
       </ul>
       {user && (
-        <StyledProfile>
-          <img src={user.avatar} />
-          <span>{user.nickname}</span>
+        <StyledProfile onClick={handleClickModalOpen}>
+          <UserAvatar src={user.avatar} alt="UserAvatar" />
+          <UserNickname>{user.nickname}</UserNickname>
         </StyledProfile>
       )}
 
@@ -51,6 +47,24 @@ function Header({ user }) {
 
 export default Header;
 
+const UserAvatar = styled.img`
+  background-color: aliceblue;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 3px;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+const UserNickname = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px;
+  padding: 5px;
+`;
 const StyledProfile = styled.div`
   display: flex;
   padding-left: 10px;
@@ -58,7 +72,7 @@ const StyledProfile = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   flex: 1;
-  align-items: end;
+  align-items: center;
   justify-content: end;
 `;
 
@@ -84,14 +98,20 @@ const HeaderWrapper = styled.div`
 
     li {
       margin-right: 1rem;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
 
       a {
         color: #fff;
         text-decoration: none;
-
         &:hover {
-          color: #ccc;
+          color: #311;
         }
+      }
+
+      &:hover {
+        color: #311;
       }
     }
   }
@@ -108,8 +128,4 @@ const HeaderWrapper = styled.div`
       background-color: #45a049;
     }
   }
-`;
-
-const StyledDiv = styled.div`
-  cursor: pointer;
 `;

@@ -4,14 +4,12 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { addExpense } from "../lib/api/db/expense";
 import { Section } from "../pages/Home";
-import useMonthStore from "../zustand/useMonthStore";
 import useUserStore from "../zustand/useUserStore";
 
-export default function CreateExpense({ refetch }) {
+export default function CreateExpense({ refetch, month }) {
   const { user } = useUserStore();
-  const { selectedMonth } = useMonthStore();
   const [newDate, setNewDate] = useState(
-    `2024-${String(selectedMonth).padStart(2, "0")}-01`
+    `2024-${String(month).padStart(2, "0")}-01`
   );
   const [newItem, setNewItem] = useState("");
   const [newAmount, setNewAmount] = useState("");
@@ -36,7 +34,6 @@ export default function CreateExpense({ refetch }) {
       return;
     }
 
-    console.log("작성자 : ", user.id);
     const newExpense = {
       id: uuidv4(),
       month: parseInt(newDate.split("-")[1], 10),
@@ -48,7 +45,7 @@ export default function CreateExpense({ refetch }) {
     };
 
     mutation.mutate(newExpense);
-    setNewDate(`2024-${String(selectedMonth).padStart(2, "0")}-01`);
+    setNewDate(`2024-${String(month).padStart(2, "0")}-01`);
     setNewItem("");
     setNewAmount("");
     setNewDescription("");
