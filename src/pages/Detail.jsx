@@ -14,6 +14,7 @@ export default function Detail() {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
+  const queryClient = new QueryClient();
   const {
     data: expense,
     isLoading,
@@ -32,8 +33,8 @@ export default function Detail() {
   const mutatationEdit = useMutation({
     mutationFn: putExpense,
     onSuccess: () => {
-      QueryClient.invalidateQueries(["expenses"]);
-      getExpense();
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
     },
   });
 
@@ -41,8 +42,8 @@ export default function Detail() {
   const mutatationDelete = useMutation({
     mutationFn: deleteExpense,
     onSuccess: () => {
-      QueryClient.invalidateQueries(["expenses"]);
-      getExpense();
+      navigate("/");
+      queryClient.invalidateQueries(["expenses"]);
     },
   });
 
@@ -65,14 +66,18 @@ export default function Detail() {
       amount: parseInt(amount, 10),
       description: description,
     };
-    mutatationEdit.mutate(newExpense);
-    navigate("/");
+    if (window.confirm("수정하시겠습니까?")) {
+      mutatationEdit.mutate(newExpense);
+      navigate("0");
+    }
   };
 
   // 삭제하기
   const handleDelete = () => {
-    mutatationDelete.mutate(id);
-    navigate("/");
+    if (window.confirm("삭제하시겠습니까?")) {
+      mutatationDelete.mutate(id);
+      navigate("0");
+    }
   };
 
   if (isLoading) {
