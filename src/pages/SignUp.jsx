@@ -82,6 +82,7 @@ const SignUpWrapper = styled.div`
 
   padding: 20px;
   width: 50%;
+  max-width: 500px;
   background-color: aliceblue;
   border-radius: 8px;
 
