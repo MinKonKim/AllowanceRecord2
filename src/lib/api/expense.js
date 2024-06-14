@@ -1,6 +1,9 @@
-import { db } from "./db";
+import axios from "axios";
 
 const PATH = "/expenses";
+export const db = axios.create({
+  baseURL: "https://jolly-polarized-opportunity.glitch.me",
+});
 
 // Expense 리스트 불러오기
 export const getExpenses = async () => {
