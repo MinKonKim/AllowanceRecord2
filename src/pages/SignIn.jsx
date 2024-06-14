@@ -19,8 +19,11 @@ function SignIn() {
       id: id,
       password: password,
     });
-    console.log("로그인한 유저 정보 :", data);
-    setUser({ userId: data.id, nickname: data.nickname, avatar: data.avatar });
+    setUser({
+      userId: data.userId,
+      nickname: data.nickname,
+      avatar: data.avatar,
+    });
     login(data.accessToken);
     //저장
     navigate("/");

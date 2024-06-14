@@ -6,8 +6,6 @@ function Layout() {
   const { user } = useUserStore();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(user);
-
     if (!user) {
       navigate("/signin");
     }

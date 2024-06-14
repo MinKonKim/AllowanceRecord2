@@ -1,14 +1,12 @@
 import axios from "axios";
 
-const PATH = "/expenses";
-export const db = axios.create({
-  baseURL: "https://jolly-polarized-opportunity.glitch.me",
-});
+const JSON_SEVER_PATH = " https://maze-lemon-quit.glitch.me";
 
 // Expense 리스트 불러오기
 export const getExpenses = async () => {
   try {
-    const { data } = await db.get(PATH);
+    const { data } = await axios.get(`${JSON_SEVER_PATH}/expenses`);
+    console.log("가져온 데이터", data);
     return data;
   } catch (error) {
     console.log("비용 목록을 불러오는 중 에러 발생", error);
@@ -18,7 +16,10 @@ export const getExpenses = async () => {
 // Expense 불러오기
 export const getExpense = async ({ queryKey }) => {
   try {
-    const { data } = await db.get(`${PATH}/${queryKey[1]}/`);
+    const { data } = await axios.get(
+      `${JSON_SEVER_PATH}/expenses/${queryKey[1]}/`
+    );
+    console.log("가져온 데이터", data);
     return data;
   } catch (error) {
     console.error("상세 항목을 불러오는 중 에러 발생", error);
@@ -26,9 +27,12 @@ export const getExpense = async ({ queryKey }) => {
 };
 
 // expense 삽입
-export const addExpense = async (expense) => {
+export const postExpense = async (expense) => {
   try {
-    await db.post(PATH, expense);
+    const { data } = await axios.post(`${JSON_SEVER_PATH}/expenses`, expense);
+    console.log("삽입후 ", data);
+
+    return data;
   } catch (error) {
     console.error("비용내역 추가 중 에러 발생", error);
   }
@@ -38,7 +42,7 @@ export const addExpense = async (expense) => {
 export const putExpense = async (updatedExpense) => {
   const { id, ...rest } = updatedExpense;
   try {
-    const { data } = await db.put(`${PATH}/${id}`, rest);
+    const { data } = await axios.put(`${JSON_SEVER_PATH}/expenses/${id}`, rest);
     return data;
   } catch (error) {
     console.error("비용 내역 업데이트 중", error);
@@ -48,7 +52,7 @@ export const putExpense = async (updatedExpense) => {
 // expense 삭제
 export const deleteExpense = async (id) => {
   try {
-    await db.delete(`${PATH}/${id}`);
+    await axios.delete(`${JSON_SEVER_PATH}/expenses/${id}`);
   } catch (error) {
     console.error("비용 내역 삭제 중", error);
   }

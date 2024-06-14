@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { addExpense } from "../lib/api/db/expense";
+import { postExpense } from "../lib/api/expense";
 import { Section } from "../pages/Home";
 import useUserStore from "../zustand/useUserStore";
 
@@ -16,8 +16,9 @@ export default function CreateExpense({ refetch, month }) {
   const [newDescription, setNewDescription] = useState("");
 
   const mutation = useMutation({
-    mutationFn: addExpense,
+    mutationFn: postExpense,
     onSuccess: () => {
+      console.log("성공~!!!");
       refetch();
     },
   });
@@ -41,7 +42,7 @@ export default function CreateExpense({ refetch, month }) {
       item: newItem,
       amount: parsedAmount,
       description: newDescription,
-      userId: user.id,
+      createdBy: user.userId,
     };
 
     mutation.mutate(newExpense);

@@ -4,7 +4,7 @@ import CreateExpense from "../components/CreateExpense";
 import ExpenseList from "../components/ExpenseList";
 import MonthNavigation from "../components/MonthNavigation";
 import SkeletonUI from "../components/SkeletonUI";
-import { getExpenses } from "../lib/api/db/expense";
+import { getExpenses } from "../lib/api/expense";
 import useMonthStore from "../zustand/useMonthStore";
 import useUserStore from "../zustand/useUserStore";
 
@@ -40,9 +40,8 @@ export default function Home() {
   );
   // 유저아이디별 필터링
   const filteredExpenses = filteredByMonth.filter(
-    (expense) => expense.userId === user.id
+    (expense) => expense.createdBy === user.userId
   );
-
   return (
     <Container>
       <MonthNavigation />
