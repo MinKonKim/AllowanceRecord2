@@ -26,7 +26,6 @@ function SignUp() {
     const response = await register({ id, password, nickname });
     console.log("회원가입 응답", response);
 
-    confirm("회원가입이 완료되었습니다.");
     navigate("/signin");
     setId("");
     setPassword("");
@@ -59,7 +58,7 @@ function SignUp() {
             placeholder="닉네임"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-          />{" "}
+          />
         </InputGroup>
         <ButtonGroup>
           <StyledButton bgcolor={"#66666"} onClick={handleRegister}>

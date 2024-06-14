@@ -10,14 +10,6 @@
       "userId": "alsrhs98"
     },
     {
-      "date": "2024-01-01",
-      "month": 1,
-      "item": "123123",
-      "amount": 56666666,
-      "description": "3123123",
-      "id": "9229bcb4-998a-402a-9c84-57df1494e9fe"
-    },
-    {
       "id": "975d87e1-48c9-468a-bb2d-c294294b3036",
       "month": 1,
       "date": "2024-01-01",
@@ -34,14 +26,6 @@
       "amount": 12412451,
       "description": "25125215",
       "userId": "rhsrhs98"
-    },
-    {
-      "date": "2024-01-01",
-      "month": 1,
-      "item": "도서",
-      "amount": 312312,
-      "description": "리액트",
-      "id": "a07bdf7a-ea8a-4a7e-ad34-d704023e87f3"
     },
     {
       "id": "07ccf69f-a4de-4a09-a581-8b5883afd181",
@@ -87,22 +71,6 @@
       "amount": 123123124,
       "description": "탕수육",
       "userId": "alsrhs98"
-    },
-    {
-      "id": "7463149c-dd16-4a55-badc-b74c317c1edd",
-      "month": 1,
-      "date": "2024-01-30",
-      "item": "도서",
-      "amount": 555555,
-      "description": "dddd"
-    },
-    {
-      "id": "2c3810ad-c18c-4a2a-82f3-814f01aef297",
-      "month": 10,
-      "date": "2024-10-01",
-      "item": "여행",
-      "amount": 5000000,
-      "description": "독일"
     }
   ]
 }

@@ -31,7 +31,7 @@ function Header({ user }) {
       </ul>
       {user && (
         <StyledProfile onClick={handleClickModalOpen}>
-          <UserAvatar src={user.avatar} alt="UserAvatar" />
+          <UserAvatar src={user.avatar || null} alt="UserAvatar" />
           <UserNickname>{user.nickname}</UserNickname>
         </StyledProfile>
       )}

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { addExpense } from "../lib/api/db/expense";
+import { addExpense } from "../lib/api/expense";
 import { Section } from "../pages/Home";
 import useUserStore from "../zustand/useUserStore";
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import SkeletonUI from "../components/SkeletonUI";
-import { deleteExpense, getExpense, putExpense } from "../lib/api/db/expense";
+import { deleteExpense, getExpense, putExpense } from "../lib/api/expense";
 
 export default function Detail() {
   const navigate = useNavigate();
