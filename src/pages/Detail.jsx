@@ -65,6 +65,7 @@ export default function Detail() {
       item: item,
       amount: parseInt(amount, 10),
       description: description,
+      createdBy: expense.createdBy,
     };
     if (window.confirm("수정하시겠습니까?")) {
       mutatationEdit.mutate(newExpense);
